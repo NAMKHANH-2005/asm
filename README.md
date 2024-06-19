@@ -15,10 +15,11 @@ namespace asm3
             string type;
             int lastmonth;
             int thismonth;
+            int numberofpeople;
 
             Console.WriteLine("Enter customer name: ");
             name = Console.ReadLine();
-           
+
             Console.WriteLine("Enter customer type: ");
             type = Console.ReadLine();
 
@@ -29,7 +30,7 @@ namespace asm3
             thismonth = int.Parse(Console.ReadLine());
 
             Console.WriteLine("The number of people in the household: ");
-            int numberofpeople = int.Parse(Console.ReadLine());
+            numberofpeople = int.Parse(Console.ReadLine());
 
 
             double waterConsumption = thismonth - lastmonth;
@@ -38,13 +39,38 @@ namespace asm3
             double consumptionPerPerson = waterConsumption / numberofpeople;
             Console.WriteLine("Consumetion PerPerson: " + consumptionPerPerson + " M3");
 
-            double priceM3;
+            double priceM3_1;
             double EnviromentFee;
             double VAT;
             double totalPrice;
-            double NoVAT;
+
+            
+            checkSign(type, out priceM3_1, consumptionPerPerson);
+
+            EnviromentFee = consumptionPerPerson * priceM3_1* 0.1;
+            VAT = consumptionPerPerson * priceM3_1 * 0.1;
+            totalPrice = consumptionPerPerson * priceM3_1 + EnviromentFee + VAT;
+
+            Console.WriteLine($"Total price : " + totalPrice + " VND");
 
 
+            Console.WriteLine("\n----- BILL -----");
+            Console.WriteLine("Customer Name: " + name);
+            Console.WriteLine("Customer Type: " + type);
+            Console.WriteLine("Last Month Reading: " + lastmonth + " M3");
+            Console.WriteLine("This Month Reading: " + thismonth + " M3");
+            Console.WriteLine("Water Consumption: " + waterConsumption + " M3");
+            Console.WriteLine("Price per M3: " + priceM3_1 + " VND");
+            Console.WriteLine("Environment Fee: " + EnviromentFee + " VND");
+            Console.WriteLine("VAT: " + VAT + " VND");
+            Console.WriteLine("Total Price: " + totalPrice + " VND");
+            Console.WriteLine("----------------");
+
+            Console.ReadLine();
+        }
+        static void checkSign(string type, out double priceM3, double consumptionPerPerson)
+        {
+            priceM3 = 0;
             if (type == "Household customer")
             {
                 if (consumptionPerPerson >= 0 && consumptionPerPerson <= 10)
@@ -78,32 +104,8 @@ namespace asm3
             }
             else
             {
-                Console.WriteLine("Invalid customer type!");
-                return;
+            Console.WriteLine("Invalid customer type!");
             }
-            
-
-            EnviromentFee = consumptionPerPerson * priceM3 * 0.1;
-            VAT = consumptionPerPerson * priceM3 * 0.1;
-            totalPrice = consumptionPerPerson * priceM3 + EnviromentFee + VAT;
-            NoVAT = consumptionPerPerson * priceM3;
-            Console.WriteLine($"Total price : " + totalPrice + " VND");
-
-            
-            Console.WriteLine("\n----- BILL -----");
-            Console.WriteLine("Customer Name: " +name );
-            Console.WriteLine("Customer Type: " +type);
-            Console.WriteLine("Last Month Reading: " + lastmonth + " M3");
-            Console.WriteLine("This Month Reading: " + thismonth + " M3");
-            Console.WriteLine("Water Consumption: " + waterConsumption + " M3");
-            Console.WriteLine("Price per M3: " + priceM3 + " VND");
-            Console.WriteLine("Environment Fee: " + EnviromentFee + " VND");
-            Console.WriteLine("VAT: " + VAT + " VND");
-            Console.WriteLine("The amount does not include tax: " + NoVAT + " VND");
-            Console.WriteLine("Total Price: " + totalPrice + " VND");
-            Console.WriteLine("----------------");
-
-            Console.ReadLine();
         }
     }
 }
